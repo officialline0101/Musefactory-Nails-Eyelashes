@@ -53,6 +53,35 @@
     button { padding: 12px; border: none; border-radius: 6px; background-color: #3e3f41; color: #000000; font-size: 16px; cursor: pointer; transition: all 0.3s; }
     button:hover { background-color: #e9e9e9; transform: scale(1.05); }
     button.active { outline: 1px solid #2b2b2b; outline-offset: 2px; box-shadow: 0 0 0 3px #45c4b7 }
+
+    /* --- ご予約内容パネル（コンパクト表示） --- */
+    #displayInfo{
+      font-size: 13.5px;
+      line-height: 1.35;
+      background: #fafafa;
+      border: 1px solid #dcdcdc;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    #displayInfo .summary{
+      display: grid;
+      grid-template-columns: 8.5em 1fr;
+      column-gap: 8px;
+      row-gap: 6px;
+    }
+    #displayInfo .summary dt{
+      margin: 0;
+      color: #45c4b7;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    #displayInfo .summary dd{
+      margin: 0;
+      word-break: break-word;
+    }
+    @media (max-width: 360px){
+      #displayInfo .summary{ grid-template-columns: 7.5em 1fr; }
+    }
   </style>
 </head>
 
@@ -411,7 +440,7 @@
       return `${Y}年${M}月${D}日 ${p(h)}:${p(m)}`;
     }
 
-    // ====== サマリー ======
+    // ====== サマリー（コンパクト） ======
     function updateDisplayInfo(){
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
@@ -433,29 +462,32 @@
       const d2 = formatISOToJP(document.getElementById('date2').value);
       const d3 = formatISOToJP(document.getElementById('date3').value);
 
+      const lashOptsText = lashOpts.length ? '・' + lashOpts.join(' ／ ') : '・なし';
+      const handOptsText = handOpts.length ? '・' + handOpts.join(' ／ ') : '・なし';
+      const footOptsText = footOpts.length ? '・' + footOpts.join(' ／ ') : (footMenu ? '・（未選択）' : '・-');
+      const wishes = `第1 ${d1 || '-'} <br> 第2 ${d2 || '-'} <br> 第3 ${d3 || '-'}`;
+
       document.getElementById('displayInfo').innerHTML = `
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【お名前】</strong></span><br>・${name || '-'}</p></div><hr>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【お電話番号】</strong></span><br>・${phone || '-'}</p></div><hr>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【ご来店回数】</strong></span><br>・${visit || '-'}</p></div><hr>
+        <dl class="summary">
+          <dt>【お名前】</dt><dd>${name || '-'}</dd>
+          <dt>【お電話番号】</dt><dd>${phone || '-'}</dd>
+          <dt>【ご来店回数】</dt><dd>${visit || '-'}</dd>
 
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【まつ毛・眉毛メニュー】</strong></span><br>・${eyeBrowMenu || '-'}</p></div>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【まつ毛オフ】</strong></span><br>・${lashOff || '（未選択）'}</p></div>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【まつ毛オプション】</strong></span><br>${lashOpts.length ? '・' + lashOpts.join('<br>・') : '・なし'}</p></div><hr>
+          <dt>【まつ毛・<br>眉毛メニュー】</dt><dd>${eyeBrowMenu || '-'}</dd>
+          <dt>【まつ毛オフ】</dt><dd>${lashOff || '（未選択）'}</dd>
+          <dt>【まつ毛オプション】</dt><dd>${lashOptsText}</dd>
 
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【ネイルご指名】</strong></span><br>・${designer || '-'}</p></div><hr>
+          <dt>【ネイルご指名】</dt><dd>${designer || '-'}</dd>
+          <dt>【ハンドメニュー】</dt><dd>${handMenu || '-'}</dd>
+          <dt>【ハンド（オフ）】</dt><dd>${handOff || (handMenu ? '（未選択）' : '-')}</dd>
+          <dt>【ハンドオプション】</dt><dd>${handOptsText}</dd>
 
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【ハンドメニュー】</strong></span><br>・${handMenu || '-'}</p></div>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【ハンド（オフ）】</strong></span><br>・${handOff || (handMenu ? '（未選択）':'-')}</p></div>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【ハンドオプション】</strong></span><br>${handOpts.length ? '・' + handOpts.join('<br>・') : '・なし'}</p></div><hr>
+          <dt>【フットメニュー】</dt><dd>${footMenu || '-'}</dd>
+          <dt>【フット（オフ）】</dt><dd>${footOff || (footMenu ? '（未選択）' : '-')}</dd>
+          <dt>【フットオプション】</dt><dd>${footOptsText}</dd>
 
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【フットメニュー】</strong></span><br>・${footMenu || '-'}</p></div>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【フット（オフ）】</strong></span><br>・${footOff || (footMenu ? '（未選択）':'-')}</p></div>
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【フットオプション】</strong></span><br>${footOpts.length ? '・' + footOpts.join('<br>・') : (footMenu ? '・（未選択）' : '・-')}</p></div><hr>
-
-        <div class="info-row"><p><span style="color:#45c4b7;"><strong>【希望日時】</strong></span><br>
-          ・第1希望：${d1 || '-'}<br>
-          ・第2希望：${d2 || '-'}<br>
-          ・第3希望：${d3 || '-'}</p></div>
+          <dt>【希望日時】</dt><dd>${wishes}</dd>
+        </dl>
       `;
     }
 
