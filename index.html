@@ -530,7 +530,7 @@
       if(!date2){ alert('第2希望日時を選択してください。'); return; }
       if(!date3){ alert('第3希望日時を選択してください。'); return; }
 
-      const text = `【予約フォーム】\n\nネイル・まつ毛同時施術のご予約\n\n《お名前》${name}\n《お電話番号》${phone}\n《ご来店回数》\n${visit}\n\n— まつ毛 —\n《ご指名》${designer}《メニュー》${eyeBrowMenu}\n《オフ》${lashOff}\n《オプション》\n${lashOpts.length ? '' + lashOpts.join('\n') : 'なし'}\n\n— ネイル（ハンド） —\n《メニュー》${handMenu}\n《オフ》${handOff}\n《オプション》\n${handOpts.length ? '' + handOpts.join('\n') : 'なし'}\n\n— ネイル（フット） —\n《メニュー》${footMenu}\n《オフ》${footOff}\n《オプション》\n${footOpts.join('\n')}\n\n【希望日時】\n《第1希望》\n${formatISOToJP(date1)}\n《第2希望》\n${formatISOToJP(date2)}\n《第3希望》\n${formatISOToJP(date3)}\n\n《その他ご要望》\n${message || '（なし）'}\n\n※「亀裂補強」「長さ出し」を選択された方は、備考欄に本数をご記入ください。`;
+      const text = `【予約フォーム】\n\nネイル・まつ毛同時施術のご予約\n\n《お名前》${name}\n《お電話番号》${phone}\n《ご来店回数》${visit}\n\n— まつ毛 —\n《ご指名》${designer}\n《メニュー》${eyeBrowMenu}\n《オフ》${lashOff}\n《オプション》\n${lashOpts.length ? '' + lashOpts.join('\n') : 'なし'}\n\n— ネイル（ハンド） —\n《メニュー》${handMenu}\n《オフ》${handOff}\n《オプション》\n${handOpts.length ? '' + handOpts.join('\n') : 'なし'}\n\n— ネイル（フット） —\n《メニュー》${footMenu}\n《オフ》${footOff}\n《オプション》\n${footOpts.join('\n')}\n\n【希望日時】\n《第1希望》\n${formatISOToJP(date1)}\n《第2希望》\n${formatISOToJP(date2)}\n《第3希望》\n${formatISOToJP(date3)}\n\n《その他ご要望》\n${message || '（なし）'}\n\n※「亀裂補強」「長さ出し」を選択された方は、備考欄に本数をご記入ください。`;
 
       liff.sendMessages([{ type:'text', text }]).then(()=>{
         alert('確認してご連絡差し上げます。');
